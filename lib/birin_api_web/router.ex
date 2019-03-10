@@ -7,5 +7,6 @@ defmodule BirinApiWeb.Router do
 
   scope "/api", BirinApiWeb do
     pipe_through :api
+    resources "/users", UserController, except: [:new, :edit]
   end
 end
