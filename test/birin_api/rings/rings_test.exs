@@ -67,4 +67,69 @@ defmodule BirinApi.RingsTest do
       assert %Ecto.Changeset{} = Rings.change_ring_number(ring_number)
     end
   end
+
+  describe "ring_series" do
+    alias BirinApi.Rings.RingSeries
+
+    @valid_attrs %{end_number: "some end_number", size: 42, start_number: "some start_number", type: "some type"}
+    @update_attrs %{end_number: "some updated end_number", size: 43, start_number: "some updated start_number", type: "some updated type"}
+    @invalid_attrs %{end_number: nil, size: nil, start_number: nil, type: nil}
+
+    def ring_series_fixture(attrs \\ %{}) do
+      {:ok, ring_series} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Rings.create_ring_series()
+
+      ring_series
+    end
+
+    test "list_ring_series/0 returns all ring_series" do
+      ring_series = ring_series_fixture()
+      assert Rings.list_ring_series() == [ring_series]
+    end
+
+    test "get_ring_series!/1 returns the ring_series with given id" do
+      ring_series = ring_series_fixture()
+      assert Rings.get_ring_series!(ring_series.id) == ring_series
+    end
+
+    test "create_ring_series/1 with valid data creates a ring_series" do
+      assert {:ok, %RingSeries{} = ring_series} = Rings.create_ring_series(@valid_attrs)
+      assert ring_series.end_number == "some end_number"
+      assert ring_series.size == 42
+      assert ring_series.start_number == "some start_number"
+      assert ring_series.type == "some type"
+    end
+
+    test "create_ring_series/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Rings.create_ring_series(@invalid_attrs)
+    end
+
+    test "update_ring_series/2 with valid data updates the ring_series" do
+      ring_series = ring_series_fixture()
+      assert {:ok, %RingSeries{} = ring_series} = Rings.update_ring_series(ring_series, @update_attrs)
+      assert ring_series.end_number == "some updated end_number"
+      assert ring_series.size == 43
+      assert ring_series.start_number == "some updated start_number"
+      assert ring_series.type == "some updated type"
+    end
+
+    test "update_ring_series/2 with invalid data returns error changeset" do
+      ring_series = ring_series_fixture()
+      assert {:error, %Ecto.Changeset{}} = Rings.update_ring_series(ring_series, @invalid_attrs)
+      assert ring_series == Rings.get_ring_series!(ring_series.id)
+    end
+
+    test "delete_ring_series/1 deletes the ring_series" do
+      ring_series = ring_series_fixture()
+      assert {:ok, %RingSeries{}} = Rings.delete_ring_series(ring_series)
+      assert_raise Ecto.NoResultsError, fn -> Rings.get_ring_series!(ring_series.id) end
+    end
+
+    test "change_ring_series/1 returns a ring_series changeset" do
+      ring_series = ring_series_fixture()
+      assert %Ecto.Changeset{} = Rings.change_ring_series(ring_series)
+    end
+  end
 end

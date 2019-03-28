@@ -9,5 +9,6 @@ defmodule BirinApiWeb.Router do
     pipe_through :api
     resources "/users", UserController, except: [:new, :edit]
     resources "/ring_numbers", RingNumberController, except: [:new, :edit]
+    resources "/ring_series", RingSeriesController, except: [:new, :edit]
   end
 end
