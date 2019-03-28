@@ -6,7 +6,7 @@ defmodule BirinApi.Rings do
   import Ecto.Query, warn: false
   alias BirinApi.Repo
 
-  alias BirinApi.Rings.RingNumber
+  alias BirinApi.Rings.{RingNumber, RingSeries}
 
   @doc """
   Returns the list of ring_number.
@@ -102,8 +102,6 @@ defmodule BirinApi.Rings do
     RingNumber.changeset(ring_number, %{})
   end
 
-  alias BirinApi.Rings.RingSeries
-
   @doc """
   Returns the list of ring_series.
 
@@ -197,4 +195,7 @@ defmodule BirinApi.Rings do
   def change_ring_series(%RingSeries{} = ring_series) do
     RingSeries.changeset(ring_series, %{})
   end
+
+  
+  
 end
