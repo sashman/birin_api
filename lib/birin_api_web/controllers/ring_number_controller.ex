@@ -6,6 +6,11 @@ defmodule BirinApiWeb.RingNumberController do
 
   action_fallback BirinApiWeb.FallbackController
 
+  def index(conn, %{"user_id" => user_id}) do
+    ring_series = Rings.list_ring_number_by_user_id(user_id)
+    render(conn, "index.json", ring_number: ring_series)
+  end
+
   def index(conn, _params) do
     ring_number = Rings.list_ring_number()
     render(conn, "index.json", ring_number: ring_number)
@@ -28,7 +33,8 @@ defmodule BirinApiWeb.RingNumberController do
   def update(conn, %{"id" => id, "ring_number" => ring_number_params}) do
     ring_number = Rings.get_ring_number!(id)
 
-    with {:ok, %RingNumber{} = ring_number} <- Rings.update_ring_number(ring_number, ring_number_params) do
+    with {:ok, %RingNumber{} = ring_number} <-
+           Rings.update_ring_number(ring_number, ring_number_params) do
       render(conn, "show.json", ring_number: ring_number)
     end
   end

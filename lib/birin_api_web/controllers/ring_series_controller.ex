@@ -6,6 +6,11 @@ defmodule BirinApiWeb.RingSeriesController do
 
   action_fallback BirinApiWeb.FallbackController
 
+  def index(conn, %{"user_id" => user_id}) do
+    ring_series = Rings.list_ring_series_by_user_id(user_id)
+    render(conn, "index.json", ring_series: ring_series)
+  end
+
   def index(conn, _params) do
     ring_series = Rings.list_ring_series()
     render(conn, "index.json", ring_series: ring_series)
@@ -28,7 +33,8 @@ defmodule BirinApiWeb.RingSeriesController do
   def update(conn, %{"id" => id, "ring_series" => ring_series_params}) do
     ring_series = Rings.get_ring_series!(id)
 
-    with {:ok, %RingSeries{} = ring_series} <- Rings.update_ring_series(ring_series, ring_series_params) do
+    with {:ok, %RingSeries{} = ring_series} <-
+           Rings.update_ring_series(ring_series, ring_series_params) do
       render(conn, "show.json", ring_series: ring_series)
     end
   end

@@ -21,6 +21,10 @@ defmodule BirinApi.Rings do
     Repo.all(RingNumber)
   end
 
+  def list_ring_number_by_user_id(user_id) do
+    Repo.all(RingNumber |> where(user_id: ^user_id))
+  end
+
   @doc """
   Gets a single ring_number.
 
@@ -115,6 +119,10 @@ defmodule BirinApi.Rings do
     Repo.all(RingSeries)
   end
 
+  def list_ring_series_by_user_id(user_id) do
+    Repo.all(RingSeries |> where(user_id: ^user_id))
+  end
+
   @doc """
   Gets a single ring_series.
 
@@ -195,7 +203,4 @@ defmodule BirinApi.Rings do
   def change_ring_series(%RingSeries{} = ring_series) do
     RingSeries.changeset(ring_series, %{})
   end
-
-  
-  
 end
