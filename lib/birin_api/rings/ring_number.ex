@@ -20,7 +20,7 @@ defmodule BirinApi.Rings.RingNumber do
   @doc false
   def changeset(ring_number, attrs) do
     ring_number
-    |> cast(attrs, [:type, :number, :received_at, :allocated_at, :user_id, :ring_series])
+    |> cast(attrs, [:type, :number, :received_at, :allocated_at, :user_id, :ring_series_id])
     |> validate_required([:type, :number, :received_at, :allocated_at, :user_id, :ring_series])
   end
 end
