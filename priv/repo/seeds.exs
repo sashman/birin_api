@@ -39,7 +39,9 @@ ring_series_id =
     type: "AA",
     size: 100,
     start_number: "ABC001",
-    end_number: "ABC101"
+    end_number: "ABC101",
+    received_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second),
+    allocated_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
   }).id
 
 RingSerial.ring_number_stream(100, "ABC001", "ABC101")
@@ -47,8 +49,6 @@ RingSerial.ring_number_stream(100, "ABC001", "ABC101")
   BirinApi.Repo.insert!(%BirinApi.Rings.RingNumber{
     type: "AA",
     number: ring_number,
-    received_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second),
-    allocated_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second),
     user_id: user_id,
     ring_series_id: ring_series_id
   })
