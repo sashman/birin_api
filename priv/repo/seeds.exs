@@ -54,3 +54,12 @@ RingSerial.ring_number_stream(100, "ABC001", "ABC101")
   })
 end)
 |> Stream.run()
+
+BirinApi.Repo.insert!(%BirinApi.Rings.RingSeries{
+  type: "AA",
+  size: 0,
+  start_number: "ABC201",
+  end_number: "ABC201",
+  received_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second),
+  allocated_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
+}).id
