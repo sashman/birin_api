@@ -6,7 +6,11 @@ defmodule BirinApi.Rings do
   import Ecto.Query, warn: false
   alias BirinApi.Repo
 
-  alias BirinApi.Rings.{RingNumber, RingSeries}
+  alias BirinApi.Rings.{
+    RingNumber,
+    RingSeries,
+    RingSerial
+  }
 
   @doc """
   Returns the list of ring_number.
@@ -57,6 +61,47 @@ defmodule BirinApi.Rings do
     %RingNumber{}
     |> RingNumber.changeset(attrs)
     |> Repo.insert()
+  end
+
+  @doc """
+  Creates a create_ring_numbers_from_series.
+
+  ## Examples
+
+      iex> create_ring_numbers_from_series([%RingSeries{}, %RingSeries{}], user_id)
+      {:ok, ammount_created}
+
+  """
+
+  def create_ring_numbers_from_series(ring_series_list, user_id) when is_list(ring_series_list) do
+    {:ok,
+     ring_series_list
+     |> Enum.map(fn %{type: type, size: size, start_number: start_number, end_number: end_number} ->
+       {:ok, %{id: ring_series_id}} =
+         {:ok, _} =
+         create_ring_series(%{
+           type: type,
+           size: size,
+           start_number: start_number,
+           end_number: end_number,
+           received_at: NaiveDateTime.utc_now(),
+           allocated_at: nil
+         })
+
+       RingSerial.ring_number_stream(size, start_number, end_number)
+       |> Stream.map(fn ring_number ->
+         {:ok, _} =
+           %{
+             type: type,
+             number: ring_number,
+             user_id: user_id,
+             ring_series_id: ring_series_id
+           }
+           |> create_ring_number()
+       end)
+       |> Enum.count()
+     end)
+     |> Enum.sum()}
   end
 
   @doc """

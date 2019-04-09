@@ -11,10 +11,14 @@ defmodule BirinApiWeb.RingSeriesView do
   end
 
   def render("ring_series.json", %{ring_series: ring_series}) do
-    %{id: ring_series.id,
+    %{
+      id: ring_series.id,
       type: ring_series.type,
       size: ring_series.size,
       start_number: ring_series.start_number,
-      end_number: ring_series.end_number}
+      end_number: ring_series.end_number,
+      received_at: ring_series.received_at,
+      allocated_at: ring_series.allocated_at
+    }
   end
 end

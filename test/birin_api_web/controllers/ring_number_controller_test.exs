@@ -5,15 +5,11 @@ defmodule BirinApiWeb.RingNumberControllerTest do
   alias BirinApi.Rings.RingNumber
 
   @create_attrs %{
-    allocated_at: ~N[2010-04-17 14:00:00],
     number: "some number",
-    received_at: ~N[2010-04-17 14:00:00],
     type: "some type"
   }
   @update_attrs %{
-    allocated_at: ~N[2011-05-18 15:01:01],
     number: "some updated number",
-    received_at: ~N[2011-05-18 15:01:01],
     type: "some updated type"
   }
   @invalid_attrs %{allocated_at: nil, number: nil, received_at: nil, type: nil}
@@ -43,9 +39,7 @@ defmodule BirinApiWeb.RingNumberControllerTest do
 
       assert %{
                "id" => id,
-               "allocated_at" => "2010-04-17T14:00:00",
                "number" => "some number",
-               "received_at" => "2010-04-17T14:00:00",
                "type" => "some type"
              } = json_response(conn, 200)["data"]
     end
@@ -59,23 +53,28 @@ defmodule BirinApiWeb.RingNumberControllerTest do
   describe "update ring_number" do
     setup [:create_ring_number]
 
-    test "renders ring_number when data is valid", %{conn: conn, ring_number: %RingNumber{id: id} = ring_number} do
-      conn = put(conn, Routes.ring_number_path(conn, :update, ring_number), ring_number: @update_attrs)
+    test "renders ring_number when data is valid", %{
+      conn: conn,
+      ring_number: %RingNumber{id: id} = ring_number
+    } do
+      conn =
+        put(conn, Routes.ring_number_path(conn, :update, ring_number), ring_number: @update_attrs)
+
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.ring_number_path(conn, :show, id))
 
       assert %{
                "id" => id,
-               "allocated_at" => "2011-05-18T15:01:01",
                "number" => "some updated number",
-               "received_at" => "2011-05-18T15:01:01",
                "type" => "some updated type"
              } = json_response(conn, 200)["data"]
     end
 
     test "renders errors when data is invalid", %{conn: conn, ring_number: ring_number} do
-      conn = put(conn, Routes.ring_number_path(conn, :update, ring_number), ring_number: @invalid_attrs)
+      conn =
+        put(conn, Routes.ring_number_path(conn, :update, ring_number), ring_number: @invalid_attrs)
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end

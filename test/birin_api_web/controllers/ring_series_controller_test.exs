@@ -8,13 +8,17 @@ defmodule BirinApiWeb.RingSeriesControllerTest do
     end_number: "some end_number",
     size: 42,
     start_number: "some start_number",
-    type: "some type"
+    type: "some type",
+    allocated_at: ~N[2010-04-17 14:00:00],
+    received_at: ~N[2010-04-17 14:00:00]
   }
   @update_attrs %{
     end_number: "some updated end_number",
     size: 43,
     start_number: "some updated start_number",
-    type: "some updated type"
+    type: "some updated type",
+    allocated_at: ~N[2010-04-17 14:00:00],
+    received_at: ~N[2010-04-17 14:00:00]
   }
   @invalid_attrs %{end_number: nil, size: nil, start_number: nil, type: nil}
 
@@ -59,8 +63,13 @@ defmodule BirinApiWeb.RingSeriesControllerTest do
   describe "update ring_series" do
     setup [:create_ring_series]
 
-    test "renders ring_series when data is valid", %{conn: conn, ring_series: %RingSeries{id: id} = ring_series} do
-      conn = put(conn, Routes.ring_series_path(conn, :update, ring_series), ring_series: @update_attrs)
+    test "renders ring_series when data is valid", %{
+      conn: conn,
+      ring_series: %RingSeries{id: id} = ring_series
+    } do
+      conn =
+        put(conn, Routes.ring_series_path(conn, :update, ring_series), ring_series: @update_attrs)
+
       assert %{"id" => ^id} = json_response(conn, 200)["data"]
 
       conn = get(conn, Routes.ring_series_path(conn, :show, id))
@@ -75,7 +84,9 @@ defmodule BirinApiWeb.RingSeriesControllerTest do
     end
 
     test "renders errors when data is invalid", %{conn: conn, ring_series: ring_series} do
-      conn = put(conn, Routes.ring_series_path(conn, :update, ring_series), ring_series: @invalid_attrs)
+      conn =
+        put(conn, Routes.ring_series_path(conn, :update, ring_series), ring_series: @invalid_attrs)
+
       assert json_response(conn, 422)["errors"] != %{}
     end
   end

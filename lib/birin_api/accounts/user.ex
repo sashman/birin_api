@@ -18,6 +18,8 @@ defmodule BirinApi.Accounts.User do
     user
     |> cast(attrs, [:auth_id, :email, :name, :license_number])
     |> validate_required([:auth_id, :email])
-    |> unique_constraint([:auth_id, :email, :license_number])
+    |> unique_constraint(:auth_id)
+    |> unique_constraint(:email)
+    |> unique_constraint(:license_number)
   end
 end
