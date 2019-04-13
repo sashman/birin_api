@@ -4,10 +4,15 @@ defmodule BirinApiWeb.RingNumberController do
   alias BirinApi.Rings
   alias BirinApi.Rings.RingNumber
 
-  action_fallback BirinApiWeb.FallbackController
+  action_fallback(BirinApiWeb.FallbackController)
 
   def index(conn, %{"user_id" => user_id}) do
     ring_series = Rings.list_ring_number_by_user_id(user_id)
+    render(conn, "index.json", ring_number: ring_series)
+  end
+
+  def index(conn, %{"ring_series_id" => ring_series_id}) do
+    ring_series = Rings.list_ring_number_by_ring_series_id(ring_series_id)
     render(conn, "index.json", ring_number: ring_series)
   end
 

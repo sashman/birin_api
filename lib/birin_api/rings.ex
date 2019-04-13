@@ -29,6 +29,10 @@ defmodule BirinApi.Rings do
     Repo.all(RingNumber |> where(user_id: ^user_id))
   end
 
+  def list_ring_number_by_ring_series_id(ring_series_id) do
+    Repo.all(RingNumber |> where(ring_series_id: ^ring_series_id))
+  end
+
   @doc """
   Gets a single ring_number.
 
@@ -73,7 +77,7 @@ defmodule BirinApi.Rings do
 
   """
 
-  def create_ring_numbers_from_series(ring_series_list, user_id) when is_list(ring_series_list) do
+  def create_ring_numbers_from_series(ring_series_list, user_id) do
     {:ok,
      ring_series_list
      |> Enum.map(fn %{type: type, size: size, start_number: start_number, end_number: end_number} ->
