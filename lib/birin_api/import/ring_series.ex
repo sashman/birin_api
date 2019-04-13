@@ -4,7 +4,6 @@ defmodule BirinApi.Import.RingsSeries do
   def from_csv_file(filename) do
     File.stream!(filename)
     |> CSV.decode(headers: true)
-    |> Stream.take(2)
     |> Stream.map(fn {:ok, series} ->
       series
       |> map_fields()
