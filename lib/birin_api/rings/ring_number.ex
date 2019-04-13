@@ -4,14 +4,14 @@ defmodule BirinApi.Rings.RingNumber do
 
   alias BirinApi.{
     Accounts.User,
-    BirinApi.Rings.RingSeries
+    Rings.RingSeries
   }
 
   schema "ring_number" do
-    field :number, :string
-    field :type, :string
-    belongs_to :user, User
-    belongs_to :ring_series, RingSeries
+    field(:number, :string)
+    field(:type, :string)
+    belongs_to(:user, User)
+    belongs_to(:ring_series, RingSeries)
 
     timestamps()
   end
