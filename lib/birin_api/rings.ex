@@ -178,6 +178,17 @@ defmodule BirinApi.Rings do
     |> Repo.all()
   end
 
+  def list_ring_series_counts_by_type() do
+    from(r in RingSeries,
+      group_by: r.type,
+      select: %{
+        type: r.type,
+        count: sum(r.size)
+      }
+    )
+    |> Repo.all()
+  end
+
   @doc """
   Gets a single ring_series.
 
