@@ -183,7 +183,7 @@ defmodule BirinApi.Rings do
       group_by: r.type,
       select: %{
         type: r.type,
-        count: sum(r.size)
+        total: sum(r.size)
       }
     )
     |> Repo.all()
