@@ -44,7 +44,7 @@ ring_series_id =
     allocated_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
   }).id
 
-RingSerial.ring_number_stream(100, "ABC001", "ABC101")
+RingSerial.ring_number_stream("ABC001", "ABC101")
 |> Stream.each(fn ring_number ->
   BirinApi.Repo.insert!(%BirinApi.Rings.RingNumber{
     type: "AA",
