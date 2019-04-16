@@ -92,7 +92,7 @@ defmodule BirinApi.Rings do
            allocated_at: nil
          })
 
-       RingSerial.ring_number_stream(size, start_number, end_number)
+       RingSerial.ring_number_stream(start_number, end_number)
        |> Stream.map(fn ring_number ->
          {:ok, _} =
            %{
