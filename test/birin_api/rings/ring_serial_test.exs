@@ -3,7 +3,9 @@ defmodule BirinApi.Rings.RingSerialTest do
   alias BirinApi.Rings.RingSerial
 
   test "serial_parts/2 returns the prefix and the number parts of a serial and length of changable integer" do
-    assert RingSerial.serial_parts("NZ77101", 2900) == {"NZ7", "7101", 4}
+    assert RingSerial.serial_parts("NZ77101", 2900) == {"NZ", "77101", 5}
+    assert RingSerial.serial_parts("0D8701", 300) == {"0D", "8701", 4}
+    assert RingSerial.serial_parts("12345", 1) == {"", "12345", 5}
   end
 
   test "serial_number_stream/3 returns a stream of serials numbers given a start and end numbers and a prefix" do
@@ -19,7 +21,6 @@ defmodule BirinApi.Rings.RingSerialTest do
            ]
   end
 
-  @tag :me
   test "ring_number_stream/3 returns a stream of serials numbers given a start and end serials and a length" do
     serial_numbers = RingSerial.ring_number_stream(10, "ABC01", "ABC10") |> Enum.to_list()
     assert serial_numbers |> length == 10
@@ -32,6 +33,17 @@ defmodule BirinApi.Rings.RingSerialTest do
              "ABC05",
              "ABC06",
              "ABC07",
+             "ABC08",
+             "ABC09",
+             "ABC10"
+           ]
+  end
+
+  test "ring_number_stream/3 handles overflow" do
+    serial_numbers = RingSerial.ring_number_stream(3, "ABC08", "ABC10") |> Enum.to_list()
+    assert serial_numbers |> length == 3
+
+    assert serial_numbers == [
              "ABC08",
              "ABC09",
              "ABC10"

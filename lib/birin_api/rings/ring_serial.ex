@@ -25,9 +25,9 @@ defmodule BirinApi.Rings.RingSerial do
 
   #   end
 
-  def ring_number_stream(series_length, serial_start, serial_end) do
-    {prefix, start_num, digit_count} = serial_parts(serial_start, series_length)
-    {^prefix, end_num, digit_count} = serial_parts(serial_end, series_length)
+  def ring_number_stream(serial_start, serial_end) do
+    {prefix, start_num, digit_count} = serial_parts(serial_start)
+    {_prefix, end_num, ^digit_count} = serial_parts(serial_end)
 
     serial_number_stream(
       prefix,
@@ -44,25 +44,16 @@ defmodule BirinApi.Rings.RingSerial do
     end)
   end
 
-  def serial_parts(serial, series_length) do
-    with {:ok, digit_count} <- integer_digit_count(series_length) do
-      {prefix, current_count} =
-        serial
-        |> String.split_at(String.length(serial) - digit_count)
+  def serial_parts(serial) do
+    [prefix, current_count] =
+      String.split(serial, ~r{.[A-Za-z]+}, include_captures: true, trim: true)
+      |> parse_matches()
 
-      {prefix, current_count, digit_count}
-    else
-      {:error, msg} ->
-        IO.inspect(msg)
-        msg
-    end
+    {prefix, current_count, current_count |> String.length()}
   end
 
-  def integer_digit_count(series_length) when is_number(series_length) do
-    {:ok, Integer.digits(series_length) |> length()}
-  end
-
-  def integer_digit_count(series_length) do
-    {:error, "how very dare you"}
-  end
+  defp parse_matches([]), do: ["", "0"]
+  defp parse_matches([current_count]), do: ["", current_count]
+  defp parse_matches([_prefix, _current_count] = m), do: m
+  defp parse_matches(m), do: "Unable to parse #{m}"
 end
