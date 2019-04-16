@@ -1,6 +1,4 @@
 defmodule BirinApi.Rings.RingSerial do
-  alias BirinApi.Rings
-
   @doc """
   ring_series_list = [
     {
@@ -46,7 +44,7 @@ defmodule BirinApi.Rings.RingSerial do
 
   def serial_parts(serial) do
     [prefix, current_count] =
-      String.split(serial, ~r{.[A-Za-z]+}, include_captures: true, trim: true)
+      String.split(serial, ~r{.*[A-Za-z]+}, include_captures: true, trim: true)
       |> parse_matches()
 
     {prefix, current_count, current_count |> String.length()}

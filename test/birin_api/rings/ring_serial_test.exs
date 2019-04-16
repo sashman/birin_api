@@ -3,6 +3,7 @@ defmodule BirinApi.Rings.RingSerialTest do
   alias BirinApi.Rings.RingSerial
 
   test "serial_parts/2 returns the prefix and the number parts of a serial and length of changable integer" do
+    assert RingSerial.serial_parts("N01") == {"N", "01", 2}
     assert RingSerial.serial_parts("NZ77101") == {"NZ", "77101", 5}
     assert RingSerial.serial_parts("0D8701") == {"0D", "8701", 4}
     assert RingSerial.serial_parts("12345") == {"", "12345", 5}
