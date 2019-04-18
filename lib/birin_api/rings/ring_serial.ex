@@ -1,28 +1,4 @@
 defmodule BirinApi.Rings.RingSerial do
-  @doc """
-  ring_series_list = [
-    {
-      serial_start: ,
-      length: ,
-      serial_end: ,
-      type: ,
-      allocated_at: ,
-      received_at: 
-    }
-  ]
-
-  """
-
-  #   def create_ring_series_list(ring_series_list, user_id) when is_list(ring_series_list) do
-  #     ring_series_list
-  #     |> Enum.map(fn ring_series -> 
-  #       :ok = create_ring_numbers_from_series(ring_series, user_id)
-
-  #       Rings.create_ring_series(ring_series)
-  #     end)
-
-  #   end
-
   def ring_number_stream(serial_start, serial_end) do
     {prefix, start_num, digit_count} = serial_parts(serial_start)
     {_prefix, end_num, ^digit_count} = serial_parts(serial_end)

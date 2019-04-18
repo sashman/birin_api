@@ -34,32 +34,32 @@ BirinApi.Repo.insert!(%BirinApi.Accounts.User{
   license_number: "ABC3"
 })
 
-ring_series_id =
-  BirinApi.Repo.insert!(%BirinApi.Rings.RingSeries{
-    type: "AA",
-    size: 100,
-    start_number: "ABC001",
-    end_number: "ABC101",
-    received_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second),
-    allocated_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
-  }).id
+# ring_series_id =
+#   BirinApi.Repo.insert!(%BirinApi.Rings.RingSeries{
+#     type: "AA",
+#     size: 100,
+#     start_number: "ABC001",
+#     end_number: "ABC101",
+#     received_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second),
+#     allocated_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
+#   }).id
 
-RingSerial.ring_number_stream("ABC001", "ABC101")
-|> Stream.each(fn ring_number ->
-  BirinApi.Repo.insert!(%BirinApi.Rings.RingNumber{
-    type: "AA",
-    number: ring_number,
-    user_id: user_id,
-    ring_series_id: ring_series_id
-  })
-end)
-|> Stream.run()
+# RingSerial.ring_number_stream("ABC001", "ABC101")
+# |> Stream.each(fn ring_number ->
+#   BirinApi.Repo.insert!(%BirinApi.Rings.RingNumber{
+#     type: "AA",
+#     number: ring_number,
+#     user_id: user_id,
+#     ring_series_id: ring_series_id
+#   })
+# end)
+# |> Stream.run()
 
-BirinApi.Repo.insert!(%BirinApi.Rings.RingSeries{
-  type: "AA",
-  size: 0,
-  start_number: "ABC201",
-  end_number: "ABC201",
-  received_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second),
-  allocated_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
-}).id
+# BirinApi.Repo.insert!(%BirinApi.Rings.RingSeries{
+#   type: "AA",
+#   size: 0,
+#   start_number: "ABC201",
+#   end_number: "ABC201",
+#   received_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second),
+#   allocated_at: NaiveDateTime.utc_now() |> NaiveDateTime.truncate(:second)
+# }).id
