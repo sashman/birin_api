@@ -84,17 +84,9 @@ defmodule BirinApi.Rings do
 
     {:ok,
      ring_series_list
-     |> Enum.map(fn %{type: type, size: size, start_number: start_number, end_number: end_number} ->
-       {:ok, %{id: ring_series_id}} =
-         {:ok, _} =
-         create_ring_series(%{
-           type: type,
-           size: size,
-           start_number: start_number,
-           end_number: end_number,
-           received_at: NaiveDateTime.utc_now(),
-           allocated_at: nil
-         })
+     |> Enum.map(fn %{type: type, start_number: start_number, end_number: end_number} =
+                      ring_series ->
+       {:ok, %{id: ring_series_id}} = create_ring_series(ring_series)
 
        RingSerial.ring_number_stream(start_number, end_number)
        |> Stream.map(fn ring_number ->
@@ -108,19 +100,21 @@ defmodule BirinApi.Rings do
          }
        end)
        |> Stream.chunk_every(1000)
-       |> Stream.map(fn ring_numbers ->
-         {count, _} =
-           Repo.insert_all(
-             RingNumber,
-             ring_numbers,
-             on_conflict: :nothing
-           )
-
-         count
-       end)
+       |> Stream.map(&bulk_insert_ring_numbers/1)
        |> Enum.sum()
      end)
      |> Enum.sum()}
+  end
+
+  defp bulk_insert_ring_numbers(ring_numbers) do
+    {count, _} =
+      Repo.insert_all(
+        RingNumber,
+        ring_numbers,
+        on_conflict: :nothing
+      )
+
+    count
   end
 
   @doc """
