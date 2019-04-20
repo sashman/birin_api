@@ -11,5 +11,6 @@ defmodule BirinApiWeb.Router do
     resources("/ring_numbers", RingNumberController, except: [:new, :edit])
     resources("/ring_series", RingSeriesController, except: [:new, :edit])
     get("/ring_types", RingTypesController, :index)
+    get("/ring_types/allocated", RingTypesController, :allocated)
   end
 end
