@@ -18,7 +18,7 @@ defmodule BirinApiWeb.RingTypesController do
     ring_types =
       ring_types
       |> Enum.map(fn type ->
-        type |> Map.put(:allocted, allocated_ring_types[type.type])
+        type |> Map.put(:allocated, allocated_ring_types[type.type])
       end)
 
     conn
