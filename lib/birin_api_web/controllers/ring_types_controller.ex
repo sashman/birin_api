@@ -8,6 +8,19 @@ defmodule BirinApiWeb.RingTypesController do
   def index(conn, _params) do
     ring_types = Rings.list_ring_series_counts_by_type()
 
+    allocated_ring_types =
+      Rings.list_ring_series_allocated_counts_by_type()
+      |> Enum.map(fn %{type: type, total: total} ->
+        {type, total}
+      end)
+      |> Map.new()
+
+    ring_types =
+      ring_types
+      |> Enum.map(fn type ->
+        type |> Map.put(:allocted, allocated_ring_types[type.type])
+      end)
+
     conn
     |> json(%{data: ring_types})
   end
