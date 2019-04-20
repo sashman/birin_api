@@ -170,9 +170,8 @@ defmodule BirinApi.RingsTest do
       assert %Ecto.Changeset{} = Rings.change_ring_series(ring_series)
     end
 
-    @tag :me
     test "should create ring number for one given series" do
-      list = [@valid_attrs]
+      list = [struct(RingSeries, @valid_attrs)]
       user_id = user_fixture().id
 
       assert {:ok, 10} == Rings.create_ring_numbers_from_series(list, user_id)
