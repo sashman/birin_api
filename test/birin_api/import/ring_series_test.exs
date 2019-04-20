@@ -4,7 +4,7 @@ defmodule BirinApi.Rings.RingSeriesTest do
 
   @expected_ring_series [
     %BirinApi.Rings.RingSeries{
-      allocated_at: ~N[2011-06-16 00:00:00],
+      allocated_at: ~N[1980-06-16 00:00:00],
       end_number: "0D8100",
       id: nil,
       inserted_at: nil,
@@ -148,7 +148,6 @@ defmodule BirinApi.Rings.RingSeriesTest do
     }
   ]
 
-  @tag :me
   test "from_csv_file/1 returns a stream of series" do
     assert @expected_ring_series ==
              RingsSeries.from_csv_file("./test/support/ring_series.csv.test")
