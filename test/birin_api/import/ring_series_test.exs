@@ -15,7 +15,7 @@ defmodule BirinApi.Rings.RingSeriesTest do
       updated_at: nil
     },
     %BirinApi.Rings.RingSeries{
-      allocated_at: ~N[2011-06-16 00:00:00],
+      allocated_at: nil,
       end_number: "0D8118",
       id: nil,
       inserted_at: nil,
