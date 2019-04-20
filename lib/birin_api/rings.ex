@@ -86,7 +86,7 @@ defmodule BirinApi.Rings do
      ring_series_list
      |> Enum.map(fn %{type: type, start_number: start_number, end_number: end_number} =
                       ring_series ->
-       {:ok, %{id: ring_series_id}} = create_ring_series(ring_series)
+       {:ok, %{id: ring_series_id}} = create_ring_series(ring_series |> Map.from_struct())
 
        RingSerial.ring_number_stream(start_number, end_number)
        |> Stream.map(fn ring_number ->
