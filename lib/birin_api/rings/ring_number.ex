@@ -23,5 +23,6 @@ defmodule BirinApi.Rings.RingNumber do
     |> assoc_constraint(:ring_series)
     |> assoc_constraint(:user)
     |> validate_required([:type, :number])
+    |> unique_constraint(:number)
   end
 end
