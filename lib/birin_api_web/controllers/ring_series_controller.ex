@@ -1,8 +1,11 @@
 defmodule BirinApiWeb.RingSeriesController do
   use BirinApiWeb, :controller
 
-  alias BirinApi.Rings
-  alias BirinApi.Rings.RingSeries
+  alias BirinApi.{
+    Import,
+    Rings,
+    Rings.RingSeries
+  }
 
   action_fallback BirinApiWeb.FallbackController
 
@@ -45,5 +48,15 @@ defmodule BirinApiWeb.RingSeriesController do
     with {:ok, %RingSeries{}} <- Rings.delete_ring_series(ring_series) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  def import(conn, %{"ring_series_file" => ring_series_file = %Plug.Upload{}}) do
+    {:ok, amount_created} =
+      ring_series_file.path
+      |> Import.RingsSeries.from_csv_file()
+      |> Rings.create_ring_numbers_from_series(nil)
+
+    conn
+    |> json(%{"created_count" => amount_created})
   end
 end
