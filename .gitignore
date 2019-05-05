@@ -36,3 +36,5 @@ birin_api-*.tar
 /config/*.secret.exs
 
 *.csv
+
+.elixir_ls/
