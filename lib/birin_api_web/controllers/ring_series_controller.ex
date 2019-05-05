@@ -51,12 +51,19 @@ defmodule BirinApiWeb.RingSeriesController do
   end
 
   def import(conn, %{"ring_series_file" => ring_series_file = %Plug.Upload{}}) do
-    {:ok, amount_created} =
-      ring_series_file.path
-      |> Import.RingsSeries.from_csv_file()
-      |> Rings.create_ring_numbers_from_series(nil)
+    extension = Path.extname(ring_series_file.filename)
+    amount_created = import_file(ring_series_file.path, extension)
 
     conn
     |> json(%{"created_count" => amount_created})
+  end
+
+  defp import_file(filepath, ".csv") do
+    {:ok, amount_created} =
+      filepath
+      |> Import.RingsSeries.from_csv_file()
+      |> Rings.create_ring_numbers_from_series(nil)
+
+    amount_created
   end
 end
