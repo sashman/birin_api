@@ -4,11 +4,12 @@ defmodule BirinApi.Accounts.User do
   alias BirinApi.Rings.RingNumber
 
   schema "users" do
-    field :auth_id, :string
-    field :email, :string
-    field :license_number, :string
-    field :name, :string
-    has_many :rings, RingNumber
+    field(:auth_id, :string)
+    field(:email, :string)
+    field(:license_number, :string)
+    field(:name, :string)
+    field(:initials, :string)
+    has_many(:rings, RingNumber)
 
     timestamps()
   end
@@ -21,5 +22,6 @@ defmodule BirinApi.Accounts.User do
     |> unique_constraint(:auth_id)
     |> unique_constraint(:email)
     |> unique_constraint(:license_number)
+    |> unique_constraint(:initials)
   end
 end
