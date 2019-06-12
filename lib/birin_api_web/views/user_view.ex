@@ -11,10 +11,13 @@ defmodule BirinApiWeb.UserView do
   end
 
   def render("user.json", %{user: user}) do
-    %{id: user.id,
+    %{
+      id: user.id,
       auth_id: user.auth_id,
       email: user.email,
       name: user.name,
-      license_number: user.license_number}
+      license_number: user.license_number,
+      initials: user.initials
+    }
   end
 end

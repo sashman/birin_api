@@ -57,6 +57,36 @@ defmodule BirinApi.Accounts do
     |> Repo.insert()
   end
 
+  def create_users(user_list) do
+    now =
+      NaiveDateTime.utc_now()
+      |> NaiveDateTime.truncate(:second)
+
+    user_list
+    |> Stream.map(fn user ->
+      Map.from_struct(user)
+      |> Map.delete(:__meta__)
+      |> Map.delete(:rings)
+      |> Map.delete(:id)
+      |> Map.put(:inserted_at, now)
+      |> Map.put(:updated_at, now)
+    end)
+    |> Stream.chunk_every(1000)
+    |> Stream.map(&bulk_insert_users/1)
+    |> Enum.sum()
+  end
+
+  defp bulk_insert_users(users) do
+    {count, _} =
+      Repo.insert_all(
+        User,
+        users,
+        on_conflict: :nothing
+      )
+
+    count
+  end
+
   @doc """
   Updates a user.
 
