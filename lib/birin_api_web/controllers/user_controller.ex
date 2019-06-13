@@ -1,10 +1,12 @@
 defmodule BirinApiWeb.UserController do
   use BirinApiWeb, :controller
+  require Logger
 
   alias BirinApi.Accounts
   alias BirinApi.Accounts.User
+  alias BirinApi.Import
 
-  action_fallback BirinApiWeb.FallbackController
+  action_fallback(BirinApiWeb.FallbackController)
 
   def index(conn, _params) do
     users = Accounts.list_users()
@@ -39,5 +41,30 @@ defmodule BirinApiWeb.UserController do
     with {:ok, %User{}} <- Accounts.delete_user(user) do
       send_resp(conn, :no_content, "")
     end
+  end
+
+  def import(conn, %{"users_file" => users_file = %Plug.Upload{}}) do
+    extension = Path.extname(users_file.filename)
+    users_stream = file_stream(users_file.path, extension)
+
+    Task.async(fn ->
+      amount_created = import_stream(users_stream)
+
+      Logger.info("Imported #{amount_created} user records")
+    end)
+
+    conn
+    |> json(%{"importing" => %{source: extension, count: users_stream |> Enum.count()}})
+  end
+
+  defp file_stream(filepath, ".csv") do
+    filepath
+    |> Import.Users.from_csv_file()
+  end
+
+  defp import_stream(users_stream) do
+    {:ok, amount_created} = Accounts.create_users(users_stream)
+
+    amount_created
   end
 end

@@ -13,5 +13,6 @@ defmodule BirinApiWeb.Router do
     get("/ring_types", RingTypesController, :index)
     get("/ring_types/allocated", RingTypesController, :allocated)
     post("/ring_series/import", RingSeriesController, :import)
+    post("/users/import", UserController, :import)
   end
 end

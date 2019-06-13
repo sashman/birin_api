@@ -62,18 +62,19 @@ defmodule BirinApi.Accounts do
       NaiveDateTime.utc_now()
       |> NaiveDateTime.truncate(:second)
 
-    user_list
-    |> Stream.map(fn user ->
-      Map.from_struct(user)
-      |> Map.delete(:__meta__)
-      |> Map.delete(:rings)
-      |> Map.delete(:id)
-      |> Map.put(:inserted_at, now)
-      |> Map.put(:updated_at, now)
-    end)
-    |> Stream.chunk_every(1000)
-    |> Stream.map(&bulk_insert_users/1)
-    |> Enum.sum()
+    {:ok,
+     user_list
+     |> Stream.map(fn user ->
+       Map.from_struct(user)
+       |> Map.delete(:__meta__)
+       |> Map.delete(:rings)
+       |> Map.delete(:id)
+       |> Map.put(:inserted_at, now)
+       |> Map.put(:updated_at, now)
+     end)
+     |> Stream.chunk_every(1000)
+     |> Stream.map(&bulk_insert_users/1)
+     |> Enum.sum()}
   end
 
   defp bulk_insert_users(users) do
