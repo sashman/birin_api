@@ -12,9 +12,12 @@ defmodule BirinApi.Import.Users do
          "ACTIVE" => _active
        }) do
     %User{
-      name: name,
-      license_number: license_number,
-      initials: initials
+      name: empty_str_to_nil(name),
+      license_number: empty_str_to_nil(license_number),
+      initials: empty_str_to_nil(initials)
     }
   end
+
+  defp empty_str_to_nil(""), do: nil
+  defp empty_str_to_nil(str), do: str
 end
