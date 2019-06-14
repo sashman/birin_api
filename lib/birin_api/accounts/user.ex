@@ -17,7 +17,7 @@ defmodule BirinApi.Accounts.User do
   @doc false
   def changeset(user, attrs) do
     user
-    |> cast(attrs, [:auth_id, :email, :name, :license_number])
+    |> cast(attrs, [:auth_id, :email, :name, :license_number, :initials])
     |> validate_required([:auth_id, :email])
     |> unique_constraint(:auth_id)
     |> unique_constraint(:email)

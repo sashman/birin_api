@@ -5,6 +5,7 @@ defmodule BirinApi.Rings do
 
   import Ecto.Query, warn: false
   alias BirinApi.Repo
+  alias BirinApi.Accounts
 
   alias BirinApi.Rings.{
     RingNumber,
@@ -77,16 +78,22 @@ defmodule BirinApi.Rings do
 
   """
 
-  def create_ring_numbers_from_series(ring_series_list, user_id) do
+  def create_ring_numbers_from_series(ring_series_list) do
     now =
       NaiveDateTime.utc_now()
       |> NaiveDateTime.truncate(:second)
 
     {:ok,
      ring_series_list
-     |> Enum.map(fn %{type: type, start_number: start_number, end_number: end_number} =
-                      ring_series ->
-       {:ok, %{id: ring_series_id}} = create_ring_series(ring_series |> Map.from_struct())
+     |> Enum.map(fn %{
+                      type: type,
+                      start_number: start_number,
+                      end_number: end_number,
+                      initials: initials
+                    } = ring_series ->
+       {:ok, %{id: ring_series_id}} = create_ring_series(ring_series)
+
+       %BirinApi.Accounts.User{id: user_id} = Accounts.get_user_by_initials!(initials)
 
        RingSerial.ring_number_stream(start_number, end_number)
        |> Stream.map(fn ring_number ->

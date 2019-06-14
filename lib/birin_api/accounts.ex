@@ -39,6 +39,8 @@ defmodule BirinApi.Accounts do
 
   def get_user_by_email!(email), do: Repo.get_by!(User, email: email)
 
+  def get_user_by_initials!(initials), do: Repo.get_by!(User, initials: initials)
+
   @doc """
   Creates a user.
 

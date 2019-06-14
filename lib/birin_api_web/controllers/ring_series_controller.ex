@@ -71,7 +71,7 @@ defmodule BirinApiWeb.RingSeriesController do
   end
 
   defp import_stream(series_stream) do
-    {:ok, amount_created} = Rings.create_ring_numbers_from_series(series_stream, nil)
+    {:ok, amount_created} = Rings.create_ring_numbers_from_series(series_stream)
 
     amount_created
   end

@@ -85,13 +85,15 @@ defmodule BirinApi.RingsTest do
       auth_id: "some auth_id",
       email: "some email",
       license_number: "some license_number",
-      name: "some name"
+      name: "some name",
+      initials: "AB"
     }
     @valid_attrs %{
       start_number: "ABC01",
       end_number: "ABC10",
       size: 10,
-      type: "AA"
+      type: "AA",
+      initials: "AB"
     }
     @update_attrs %{
       end_number: "some updated end_number",
@@ -171,11 +173,17 @@ defmodule BirinApi.RingsTest do
     end
 
     test "should create ring number for one given series" do
-      list = [struct(RingSeries, @valid_attrs)]
-      user_id = user_fixture().id
+      list = [@valid_attrs]
+      initials = @valid_attrs.initials
+      %BirinApi.Accounts.User{initials: ^initials, id: user_id} = user_fixture()
 
-      assert {:ok, 10} == Rings.create_ring_numbers_from_series(list, user_id)
+      assert {:ok, 10} == Rings.create_ring_numbers_from_series(list)
       assert 10 == Rings.list_ring_number() |> length
+
+      Rings.list_ring_number()
+      |> Enum.each(fn ring_number ->
+        assert user_id == ring_number.user_id
+      end)
     end
   end
 end
