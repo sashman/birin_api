@@ -6,14 +6,15 @@ defmodule BirinApi.Import.RingsSeries do
 
   defp map_fields(%{
          "ALLOC_DTE" => allocated_at_string,
-         "INIT" => _initials,
+         "INIT" => initials,
          "RCVD_DTE" => _received_at,
          "SEREND" => end_number,
          "SERIES" => start_number,
          "SERLEN" => size,
          "SIZE" => type
        }) do
-    %RingSeries{
+    %{
+      initials: initials,
       type: type,
       size: String.to_integer(size),
       start_number: start_number,
