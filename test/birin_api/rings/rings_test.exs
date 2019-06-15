@@ -172,7 +172,7 @@ defmodule BirinApi.RingsTest do
       assert %Ecto.Changeset{} = Rings.change_ring_series(ring_series)
     end
 
-    test "should create ring number for one given series" do
+    test "create_ring_numbers_from_series/1 creates ring numbers for one given series" do
       list = [@valid_attrs]
       initials = @valid_attrs.initials
       %BirinApi.Accounts.User{initials: ^initials, id: user_id} = user_fixture()
@@ -184,6 +184,15 @@ defmodule BirinApi.RingsTest do
       |> Enum.each(fn ring_series ->
         assert user_id == ring_series.user_id
       end)
+    end
+
+    test "list_ring_series_by_user_id/1 should return series for given user id" do
+      user_id = user_fixture().id
+
+      assert {:ok, %RingSeries{} = ring_series} =
+               Rings.create_ring_series(@valid_attrs |> Map.put(:user_id, user_id))
+
+      assert [ring_series] == Rings.list_ring_series_by_user_id(user_id)
     end
   end
 end

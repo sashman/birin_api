@@ -191,10 +191,7 @@ defmodule BirinApi.Rings do
 
   def list_ring_series_by_user_id(user_id) do
     from(r in RingSeries,
-      distinct: r.id,
-      inner_join: rn in RingNumber,
-      on: r.id == rn.ring_series_id,
-      where: rn.user_id == ^user_id
+      where: r.user_id == ^user_id
     )
     |> Repo.all()
   end
