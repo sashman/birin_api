@@ -91,8 +91,6 @@ defmodule BirinApi.Rings do
                       end_number: end_number,
                       initials: initials
                     } = ring_series ->
-       {:ok, %{id: ring_series_id}} = create_ring_series(ring_series)
-
        user_id =
          Accounts.get_user_by_initials(initials)
          |> case do
@@ -100,12 +98,14 @@ defmodule BirinApi.Rings do
            _ -> nil
          end
 
+       {:ok, %{id: ring_series_id}} =
+         create_ring_series(ring_series |> Map.put(:user_id, user_id))
+
        RingSerial.ring_number_stream(start_number, end_number)
        |> Stream.map(fn ring_number ->
          %{
            type: type,
            number: ring_number,
-           user_id: user_id,
            ring_series_id: ring_series_id,
            inserted_at: now,
            updated_at: now

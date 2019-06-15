@@ -10,7 +10,6 @@ defmodule BirinApi.Rings.RingNumber do
   schema "ring_number" do
     field(:number, :string)
     field(:type, :string)
-    belongs_to(:user, User)
     belongs_to(:ring_series, RingSeries)
 
     timestamps()
@@ -19,9 +18,8 @@ defmodule BirinApi.Rings.RingNumber do
   @doc false
   def changeset(ring_number, attrs) do
     ring_number
-    |> cast(attrs, [:type, :number, :user_id, :ring_series_id])
+    |> cast(attrs, [:type, :number, :ring_series_id])
     |> assoc_constraint(:ring_series)
-    |> assoc_constraint(:user)
     |> validate_required([:type, :number])
     |> unique_constraint(:number)
   end

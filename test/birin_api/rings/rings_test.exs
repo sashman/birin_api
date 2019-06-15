@@ -180,9 +180,9 @@ defmodule BirinApi.RingsTest do
       assert {:ok, 10} == Rings.create_ring_numbers_from_series(list)
       assert 10 == Rings.list_ring_number() |> length
 
-      Rings.list_ring_number()
-      |> Enum.each(fn ring_number ->
-        assert user_id == ring_number.user_id
+      Rings.list_ring_series()
+      |> Enum.each(fn ring_series ->
+        assert user_id == ring_series.user_id
       end)
     end
   end
