@@ -207,6 +207,18 @@ defmodule BirinApi.Rings do
     |> Repo.all()
   end
 
+  def list_ring_series_counts_by_type_by_user_id(user_id) do
+    from(r in RingSeries,
+      group_by: r.type,
+      where: r.user_id == ^user_id,
+      select: %{
+        type: r.type,
+        total: sum(r.size)
+      }
+    )
+    |> Repo.all()
+  end
+
   def list_ring_series_allocated_counts_by_type() do
     from(r in RingSeries,
       group_by: r.type,

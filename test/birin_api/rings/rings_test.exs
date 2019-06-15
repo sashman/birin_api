@@ -194,5 +194,48 @@ defmodule BirinApi.RingsTest do
 
       assert [ring_series] == Rings.list_ring_series_by_user_id(user_id)
     end
+
+    test "list_ring_series_counts_by_type_by_user_id/1 should return series for given user id" do
+      user_id = user_fixture().id
+
+      1..5
+      |> Enum.each(fn _ ->
+        {:ok, %RingSeries{}} =
+          Rings.create_ring_series(
+            @valid_attrs
+            |> Map.put(:user_id, user_id)
+            |> Map.put(:type, "AA")
+            |> Map.put(:size, 10)
+          )
+      end)
+
+      1..8
+      |> Enum.each(fn _ ->
+        {:ok, %RingSeries{}} =
+          Rings.create_ring_series(
+            @valid_attrs
+            |> Map.put(:user_id, user_id)
+            |> Map.put(:type, "A")
+            |> Map.put(:size, 1)
+          )
+      end)
+
+      1..3
+      |> Enum.each(fn _ ->
+        {:ok, %RingSeries{}} =
+          Rings.create_ring_series(
+            @valid_attrs
+            |> Map.put(:user_id, user_id)
+            |> Map.put(:type, "B")
+            |> Map.put(:size, 3)
+          )
+      end)
+
+      assert [
+               %{total: 8 * 1, type: "A"},
+               %{total: 5 * 10, type: "AA"},
+               %{total: 3 * 3, type: "B"}
+             ] == Rings.list_ring_series_counts_by_type_by_user_id(user_id)
+    end
   end
 end
