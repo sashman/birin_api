@@ -6,9 +6,9 @@ defmodule BirinApiWeb.RingTypesController do
   action_fallback(BirinApiWeb.FallbackController)
 
   def index(conn, %{"user_id" => user_id}) do
-    ring_types = Rings.list_ring_series_counts_by_type_by_user_id(user_id) |> list_to_map()
+    ring_types = Rings.list_ring_series_counts_by_type_by_user_id(user_id)
 
-    overall_total = Enum.reduce(ring_types, 0, fn {_, total}, acc -> total + acc end)
+    overall_total = Enum.reduce(ring_types, 0, fn %{total: total}, acc -> total + acc end)
 
     conn
     |> json(%{data: ring_types, total: overall_total})
