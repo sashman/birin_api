@@ -4,8 +4,8 @@ defmodule BirinApi.MixProject do
   def project do
     [
       app: :birin_api,
-      version: "0.1.0",
-      elixir: "~> 1.5",
+      version: String.trim(File.read!("VERSION")),
+      elixir: "~> 1.8",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
@@ -42,7 +42,9 @@ defmodule BirinApi.MixProject do
       {:jason, "~> 1.0"},
       {:plug_cowboy, "~> 2.0"},
       {:csv, "~> 2.3"},
-      {:timex, "~> 3.5"}
+      {:timex, "~> 3.5"},
+      {:distillery, "~> 2.0"},
+      {:eliver, "~> 2.0", only: :dev}
     ]
   end
 
