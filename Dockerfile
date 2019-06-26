@@ -4,7 +4,8 @@ RUN apk update && apk upgrade && apk add bash
 WORKDIR /usr/src/
 
 COPY mix.exs mix.lock VERSION /usr/src/
-RUN mix do local.hex --force, local.rebar --force, deps.get, compile
+RUN mix do local.hex --force, local.rebar --force
+RUN mix do deps.get, compile
 
 COPY . /usr/src/
 
@@ -20,7 +21,7 @@ CMD [ "mix", "test" ]
 # --------------------------------
 FROM BASE as BUILD
 
-ARG APP_NAME=biring_api
+ARG APP_NAME=birin_api
 # The environment to build with
 ARG MIX_ENV=prod
 ENV MIX_ENV=prod
@@ -29,8 +30,8 @@ ARG PORT=4000
 
 RUN \
     mkdir -p /opt/built && \
-    mix release.init --no-doc && \
-    mix release --verbose --env=prod && \
+    mix distillery.init --no-doc && \
+    mix distillery.release --verbose --env=prod && \
     export APP_VSN=$(cat VERSION) && \
     cp _build/prod/rel/${APP_NAME}/releases/${APP_VSN}/${APP_NAME}.tar.gz /opt/built && \
     cd /opt/built && \
@@ -53,4 +54,4 @@ COPY --from=BUILD /opt/built .
 ENV MIX_ENV=prod
 ENV PORT=4000
 
-CMD [ "/opt/app/bin/biring_api", "foreground" ]
+CMD [ "/opt/app/bin/birin_api", "foreground" ]

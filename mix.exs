@@ -43,7 +43,7 @@ defmodule BirinApi.MixProject do
       {:plug_cowboy, "~> 2.0"},
       {:csv, "~> 2.3"},
       {:timex, "~> 3.5"},
-      {:distillery, "~> 2.0"},
+      {:distillery, "~> 2.1"},
       {:eliver, "~> 2.0", only: :dev}
     ]
   end
