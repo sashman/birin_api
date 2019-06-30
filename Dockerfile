@@ -31,7 +31,7 @@ ARG PORT=4000
 RUN \
     mkdir -p /opt/built && \
     mix distillery.init --no-doc && \
-    mix distillery.release --verbose --env=prod && \
+    mix distillery.release --verbose --env=prod --warnings-as-errors && \
     export APP_VSN=$(cat VERSION) && \
     cp _build/prod/rel/${APP_NAME}/releases/${APP_VSN}/${APP_NAME}.tar.gz /opt/built && \
     cd /opt/built && \
