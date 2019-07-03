@@ -72,7 +72,7 @@ jobs:
             mkdir -p ~/.ssh
             chmod 700 ~/.ssh
             echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
-            echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+            echo -n "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
       - run: ssh deploy@51.15.209.94 'ls birin_api'
 
