@@ -48,9 +48,6 @@ jobs:
           name: tag verison image
           command: if [[ ! -z $CIRCLE_TAG ]]; then docker tag sashman/birin_api sashman/birin_api:$CIRCLE_TAG; else exit 0; fi
       - run:
-          name: docker login
-          command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD quay.io
-      - run:
           name: push latest image
           command: docker push sashman/birin_api:latest
       - run:
