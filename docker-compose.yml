@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  # gateway:
+  #   image: sashman/birin_gateway
+  #   env_file: .env
+  api:
+    image: sashman/birin_api
+    env_file: .env
+    ports:
+      - 4000:4000
