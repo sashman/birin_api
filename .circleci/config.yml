@@ -74,6 +74,7 @@ jobs:
             echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
             echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
             chmod 600 ~/.ssh/id_rsa
+      - run: ssh deploy@51.15.209.94 'ls birin_api'
 
 workflows:
   version: 2
