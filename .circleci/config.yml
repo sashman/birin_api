@@ -53,18 +53,11 @@ jobs:
 
   deploy:
     docker:
-      # - image: kroniak/ssh-client
       - image: circleci/elixir:1.8
     working_directory: ~/repo
     steps:
       - checkout
       - setup_remote_docker
-      # - run:
-      #     name: install  curl
-      #     command: apk --no-cache add curl
-      # - run:
-      #     name: install  curl
-      #     command: apt install curl
       - run:
           name: set up ssh key
           command: |
@@ -76,7 +69,6 @@ jobs:
       - run:
           name: deploy swarm
           command: docker -H ssh://deploy@51.15.209.94 stack deploy -c docker-compose.yml birin
-      # - run: ssh deploy@51.15.209.94 'cd birin_api && git pull'
 
 workflows:
   version: 2
