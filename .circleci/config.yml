@@ -62,9 +62,9 @@ jobs:
       # - run:
       #     name: install  curl
       #     command: apk --no-cache add curl
-      - run:
-          name: install  curl
-          command: apt install curl
+      # - run:
+      #     name: install  curl
+      #     command: apt install curl
       - run:
           name: set up ssh key
           command: |
