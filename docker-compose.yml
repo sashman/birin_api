@@ -1,8 +1,11 @@
-version: "2"
+version: "3.1"
 services:
   gateway:
     image: sashman/birin_gateway
     env_file: .env
+    deploy:
+      restart_policy:
+        condition: any
   api:
     image: sashman/birin_api
     environment:
