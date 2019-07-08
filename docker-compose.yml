@@ -1,11 +1,14 @@
 version: "2"
 services:
-  # gateway:
-  #   image: sashman/birin_gateway
-  #   env_file: .env
+  gateway:
+    image: sashman/birin_gateway
+    env_file: .env
   api:
     image: sashman/birin_api
     environment:
       DATABASE_URL: $DATABASE_URL
     ports:
       - 4000:4000
+    deploy:
+      restart_policy:
+        condition: any
