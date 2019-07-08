@@ -1,13 +1,13 @@
 version: "3.1"
 services:
   gateway:
-    image: sashman/birin_gateway
+    image: sashman/birin_gateway:latest
     env_file: .env
     deploy:
       restart_policy:
         condition: any
   api:
-    image: sashman/birin_api
+    image: sashman/birin_api:latest
     environment:
       DATABASE_URL: $DATABASE_URL
     ports:
