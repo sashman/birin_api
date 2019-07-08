@@ -4,6 +4,10 @@ services:
     image: sashman/birin_gateway:latest
     ports:
       - 4001:4001
+    environment:
+      API_ENDPOINT: http://api:4000
+    depends_on:
+      - api
     deploy:
       restart_policy:
         condition: any
