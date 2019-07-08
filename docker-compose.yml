@@ -3,6 +3,8 @@ services:
   gateway:
     image: sashman/birin_gateway:latest
     env_file: .env
+    ports:
+      - 4001:4001
     deploy:
       restart_policy:
         condition: any
