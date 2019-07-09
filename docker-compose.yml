@@ -1,5 +1,14 @@
 version: "3.1"
 services:
+  proxy:
+    image: sashman/birin_proxy:latest
+    restart: unless-stopped
+    ports:
+      - 443:443/tcp
+    environment:
+      - CERTBOT_EMAIL=sashman90@gmail.com
+    depends_on:
+      - gateway
   gateway:
     image: sashman/birin_gateway:latest
     ports:
