@@ -29,7 +29,6 @@ defmodule BirinApiWeb.RingSeriesController do
     with {:ok, %RingSeries{} = ring_series} <- Rings.create_ring_series(ring_series_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.ring_series_path(conn, :show, ring_series))
       |> render("show.json", ring_series: ring_series)
     end
   end

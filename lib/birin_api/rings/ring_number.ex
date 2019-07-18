@@ -3,7 +3,6 @@ defmodule BirinApi.Rings.RingNumber do
   import Ecto.Changeset
 
   alias BirinApi.{
-    Accounts.User,
     Rings.RingSeries
   }
 
@@ -11,6 +10,7 @@ defmodule BirinApi.Rings.RingNumber do
     field(:number, :string)
     field(:type, :string)
     belongs_to(:ring_series, RingSeries)
+    has_many(:user, through: [:ring_series, :user])
 
     timestamps()
   end

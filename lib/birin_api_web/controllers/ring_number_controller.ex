@@ -25,9 +25,13 @@ defmodule BirinApiWeb.RingNumberController do
     with {:ok, %RingNumber{} = ring_number} <- Rings.create_ring_number(ring_number_params) do
       conn
       |> put_status(:created)
-      |> put_resp_header("location", Routes.ring_number_path(conn, :show, ring_number))
       |> render("show.json", ring_number: ring_number)
     end
+  end
+
+  def show(conn, %{"number" => number}) do
+    ring_number = Rings.get_ring_number_by_number(number)
+    render(conn, "show.json", ring_number: ring_number)
   end
 
   def show(conn, %{"id" => id}) do

@@ -1,6 +1,8 @@
 defmodule BirinApiWeb.RingSeriesView do
   use BirinApiWeb, :view
   alias BirinApiWeb.RingSeriesView
+  alias BirinApiWeb.UserView
+  alias BirinApi.Accounts.User
 
   def render("index.json", %{ring_series: ring_series}) do
     %{data: render_many(ring_series, RingSeriesView, "ring_series.json")}
@@ -10,7 +12,14 @@ defmodule BirinApiWeb.RingSeriesView do
     %{data: render_one(ring_series, RingSeriesView, "ring_series.json")}
   end
 
-  def render("ring_series.json", %{ring_series: ring_series}) do
+  def render("ring_series.json", %{ring_series: ring_series}), do: render_ring_series(ring_series)
+
+  def render_ring_series(%{user: %User{} = user} = ring_series) do
+    render_ring_series(ring_series |> Map.delete(:user))
+    |> Map.put(:user, UserView.render_user(user))
+  end
+
+  def render_ring_series(ring_series) do
     %{
       id: ring_series.id,
       type: ring_series.type,

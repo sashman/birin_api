@@ -2,6 +2,11 @@ defmodule BirinApi.Rings.RingSeries do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias BirinApi.{
+    Rings.RingNumber,
+    Accounts.User
+  }
+
   schema "ring_series" do
     field(:end_number, :string)
     field(:size, :integer)
@@ -10,6 +15,7 @@ defmodule BirinApi.Rings.RingSeries do
     field(:received_at, :naive_datetime)
     field(:allocated_at, :naive_datetime)
     belongs_to(:user, User)
+    has_many(:ring_numbers, RingNumber)
 
     timestamps()
   end

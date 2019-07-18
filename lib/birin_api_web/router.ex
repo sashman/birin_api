@@ -8,6 +8,7 @@ defmodule BirinApiWeb.Router do
   scope "/api", BirinApiWeb do
     pipe_through(:api)
     resources("/users", UserController, except: [:new, :edit])
+    get("/ring_number", RingNumberController, :show)
     resources("/ring_numbers", RingNumberController, except: [:new, :edit])
     resources("/ring_series", RingSeriesController, except: [:new, :edit])
     get("/ring_types", RingTypesController, :index)

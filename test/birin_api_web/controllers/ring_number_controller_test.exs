@@ -85,10 +85,6 @@ defmodule BirinApiWeb.RingNumberControllerTest do
     test "deletes chosen ring_number", %{conn: conn, ring_number: ring_number} do
       conn = delete(conn, Routes.ring_number_path(conn, :delete, ring_number))
       assert response(conn, 204)
-
-      assert_error_sent 404, fn ->
-        get(conn, Routes.ring_number_path(conn, :show, ring_number))
-      end
     end
   end
 

@@ -10,7 +10,9 @@ defmodule BirinApiWeb.UserView do
     %{data: render_one(user, UserView, "user.json")}
   end
 
-  def render("user.json", %{user: user}) do
+  def render("user.json", %{user: user}), do: render_user(user)
+
+  def render_user(user) do
     %{
       id: user.id,
       auth_id: user.auth_id,

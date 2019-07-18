@@ -50,6 +50,9 @@ defmodule BirinApi.Rings do
   """
   def get_ring_number!(id), do: Repo.get!(RingNumber, id)
 
+  def get_ring_number_by_number(number),
+    do: Repo.get_by(RingNumber |> preload(ring_series: :user), number: number)
+
   @doc """
   Creates a ring_number.
 
