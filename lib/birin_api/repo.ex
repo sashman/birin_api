@@ -5,8 +5,8 @@ defmodule BirinApi.Repo do
 
   def init(_type, config) do
     case(config[:hostname]) do
-      nil -> {:ok, config}
-      _ -> {:ok, Keyword.put(config, :url, System.get_env("DATABASE_URL"))}
+      nil -> {:ok, Keyword.put(config, :url, System.get_env("DATABASE_URL"))}
+      _ -> {:ok, config}
     end
   end
 end
