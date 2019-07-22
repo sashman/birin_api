@@ -30,7 +30,7 @@ defmodule BirinApiWeb.RingNumberController do
   end
 
   def show(conn, %{"number" => number}) do
-    ring_number = Rings.get_ring_number_by_number(number)
+    ring_number = Rings.get_ring_number_by_number!(number)
     render(conn, "show.json", ring_number: ring_number)
   end
 
